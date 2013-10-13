@@ -1,0 +1,42 @@
+p{
+	color:green;
+	background-color: lightyellow;
+	max-width: 40%;
+	outline: solid;
+	text-align: center;
+	display: none;
+}
+
+#foodItem{
+	display: none;
+}
+
+.food_item, .restaurant_name{
+	color : lightblue;
+	outline: solid;
+	outline-color: #FFF999;
+	max-width: 35%;
+	text-align: center;
+	margin:10px;
+	margin-left: auto; margin-right: auto;
+	padding: 5px 0px 5px;
+	z-index: 99;
+}
+
+.food_item:hover{
+	outline-color:black;
+}
+
+
+.restaurant_name{
+	outline: dashed;
+	outline-color: red;
+	outline-width: 15px;
+	outline-style: outset;
+	margin: 50px auto 50px;
+	font-weight: 750;
+	font-size: 24px;
+	color: #999FFF;
+	font-outline: black;
+}
+

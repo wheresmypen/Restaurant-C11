@@ -15,6 +15,11 @@ var Customer = function	(dietaryPreference){
 	this.dietaryPreference = dietaryPreference;
 };
 
+// customer(s) (composed of a string)
+Customer.prototype.toString = function () {
+	return ("This person requires a " + aCustomer.dietaryPreference + " selection of foods.");
+};
+
 
 
 // The desired input follows each parameter in parentheses:
@@ -27,6 +32,24 @@ var Restaurant = function (name, description, menu){
 };
 
 
+
+// restaurant(s) (composed of different Menu)
+Restaurant.prototype.toString = function (){
+	outPutString = ("At " + haroldAndMaudes.name + " we offer a number of " + haroldAndMaudes.description + " dishes from our " + haroldAndMaudes.menu[0].name + ", " + haroldAndMaudes.menu[1].name + ", and " + haroldAndMaudes.menu[2].name + " menus.\n")
+	outPutString += ("These include:\n");
+	for (i=0; i<3; i++) {
+		for (j=0; j<haroldAndMaudes.menu[i].plates.length; j++){
+			outPutString += ((haroldAndMaudes.menu[i].plates[j].name) + "\n");
+		};
+	};
+	return outPutString;
+};
+
+Restaurant.prototype.create = function (){
+	return $("<div class='restaurant_name'>^{name}</div>".supplant(this))
+};
+
+
 // The desired input follows each parameter in parentheses:
 // plates ([PlateItem])
 
@@ -36,11 +59,62 @@ var Menu = function (name,plates){
 };
 
 
+
+// menu(s) (composed of PlateItems, DrinkItems, and FoodItems)
+Menu.prototype.toString = function (){
+	var d = "";
+	for (i=0; i<(this.plates.length-1); i++){
+		d += (" " + this.plates[i].name + ",");
+	};
+	d += (" and " + this.plates[i].name + "(s).");
+	return "We serve excellent quality and modest portions of" + d;
+};
+
+Menu.prototype.create = function (){
+	var variety = ""
+	for (i = 0; i<(this.plates.length); i++){
+	variety += ("<div class = 'food_item'>%{name}</div>".supplant(this.plates[i]));
+	// variety += ("<div class = 'food_item'>{name} id = 'fooTem{i}'</div>".supplant(this.plates[i]),j[i]);
+	console.log ("loop"+i);
+	};
+	return variety;
+};
+
+
+
+
 // The desired input follows each parameter in parentheses:
 // plates (PlateItem)
 
 var OrderItem = function (plates){
 	this.plates = plates;
+};
+
+// orders/tickets (composed of PlateItems and DrinkItems)
+OrderItem.prototype.toString = function (){
+	var c = "";
+	var cost = 0;
+	for (i=0; i<(this.plates.length-1); i++){
+		c += (" " + this.plates[i].name);
+		cost += this.plates[i].price;
+		// console.log(cost)
+	};
+	c += (" and " + this.plates[i].name + " ");
+	return "Your order of" + c + " is " + cost + " dollars.";
+};
+
+// !!!!!!!!!!!!!!!!!!
+// Significant problems with the for loop
+// !!!!!!!!!!!!!!!!!!
+
+OrderItem.prototype.create = function(){
+	var compileOrder = "";
+	// var i = 0;
+	console.log (this.plates.length);
+	for (i=0; i<this.plates.length; i++){ 
+	 	console.log(OrderItem.plates)};
+		// compileOrder = ('<div class = "food item">${plates}</div>'.supplant(OrderItem.plates[i]));
+	return compileOrder;
 };
 
 
@@ -52,48 +126,6 @@ var PlateItem = function (name, description, price, items){
 	this.description = description;
 	this.price = price;
 	this.items = items;
-};
-
-
-// The desired input follows each parameter in parentheses:
-// name (string), description (string), items ([FoodItem])
-
-var DrinkItem = function (name, description, items){
-	this.name = name;
-	this.description = description;
-	this.items = items;
-};
-
-
-// The desired input follows each parameter in parentheses:
-// 			name (string), calories (number),
-// 				vegan (boolean), glutenFree (boolean), citrusFree (boolean)
-
-var FoodItem = function (name, calories, vegan, glutenFree, citrusFree){
-	this.name = name;
-	this.calories = calories;
-	this.vegan = vegan;
-	this.glutenFree = glutenFree;
-	this.citrusFree = citrusFree;
-};
-
-
-
-// The following sections are all creating "output" string for each designated "object"-prototype
-
-
-// food (ingredients)
-FoodItem.prototype.toString = function (){
-	return outPutString = "Any " + this.name + "(s) in your diet contain " + this.calories + " calories.\nThe rumors that " + this.name + " are vegan are definitely " + this.vegan + ".\nThe rumors that " + this.name + " are gluten-free are definitely " + this.glutenFree + ".\nThe rumors that " + this.name + " are citrus-free are definitely " + this.citrusFree + ".";
-};
-
-// drink (composed of FoodItems)
-DrinkItem.prototype.toString = function (){
-	var a = ""
-	for (i=0; i<this.items.length; i++){
-		a += (" " + this.items[i].name);
-	};
-	return outPutString = "Your " + this.name + "(s), a delicious, " + this.description + " drink that contains" + a + ".";
 };
 
 // plates/dishes (composed of foodItems)
@@ -136,45 +168,64 @@ PlateItem.prototype.isCitrusFree = function (){
 	return dietType;
 };
 
-// orders/tickets (composed of PlateItems and DrinkItems)
-OrderItem.prototype.toString = function (){
-	var c = "";
-	var cost = 0;
-	for (i=0; i<(this.plates.length-1); i++){
-		c += (" " + this.plates[i].name);
-		cost += this.plates[i].price;
-		console.log(cost)
-	};
-	c += (" and " + this.plates[i].name + " ");
-	return "Your order of" + c + " is " + cost + " dollars.";
+PlateItem.prototype.create = function (){
+	return $("<div class='food_item'>#{name}</div>".supplant(this));
 };
 
-// menu(s) (composed of PlateItems, DrinkItems, and FoodItems)
-Menu.prototype.toString = function (){
-	var d = "";
-	for (i=0; i<(this.plates.length-1); i++){
-		d += (" " + this.plates[i].name + ",");
-	};
-	d += (" and " + this.plates[i].name + "(s).");
-	return "We serve excellent quality and modest portions of" + d;
+
+
+
+// The desired input follows each parameter in parentheses:
+// name (string), description (string), items ([FoodItem])
+
+var DrinkItem = function (name, description, items){
+	this.name = name;
+	this.description = description;
+	this.items = items;
 };
 
-// restaurant(s) (composed of different Menu)
-Restaurant.prototype.toString = function (){
-	outPutString = ("At " + haroldAndMaudes.name + " we offer a number of " + haroldAndMaudes.description + " dishes from our " + haroldAndMaudes.menu[0].name + ", " + haroldAndMaudes.menu[1].name + ", and " + haroldAndMaudes.menu[2].name + " menus.\n")
-	outPutString += ("These include:\n");
-	for (i=0; i<3; i++) {
-		for (j=0; j<haroldAndMaudes.menu[i].plates.length; j++){
-			outPutString += ((haroldAndMaudes.menu[i].plates[j].name) + "\n");
-		};
+// drink (composed of FoodItems)
+DrinkItem.prototype.toString = function (){
+	var a = ""
+	for (i=0; i<this.items.length; i++){
+		a += (" " + this.items[i].name);
 	};
-	return outPutString;
+	return outPutString = "Your " + this.name + "(s), a delicious, " + this.description + " drink that contains" + a + ".";
 };
 
-// customer(s) (composed of a string)
-Customer.prototype.toString = function () {
-	return ("This person requires a " + aCustomer.dietaryPreference + " selection of foods.");
+DrinkItem.prototype.create = function (){
+	return $("<div class='food_item'>@{name}</div>".supplant(this))
 };
+
+// The desired input follows each parameter in parentheses:
+// 			name (string), calories (number),
+// 				vegan (boolean), glutenFree (boolean), citrusFree (boolean)
+
+var FoodItem = function (name, calories, vegan, glutenFree, citrusFree){
+	this.name = name;
+	this.calories = calories;
+	this.vegan = vegan;
+	this.glutenFree = glutenFree;
+	this.citrusFree = citrusFree;
+};
+
+// food (ingredients)
+FoodItem.prototype.toString = function (){
+	return outPutString = "Any " + this.name + "(s) in your diet contain " + this.calories + " calories.\nThe rumors that " + this.name + " are vegan are definitely " + this.vegan + ".\nThe rumors that " + this.name + " are gluten-free are definitely " + this.glutenFree + ".\nThe rumors that " + this.name + " are citrus-free are definitely " + this.citrusFree + ".";
+};
+
+FoodItem.prototype.create = function (){
+	return $("<div class='food_item'>!{name}</div>".supplant(this));
+}
+
+
+
+
+// The following sections are all creating "output" string for each designated "object"-prototype
+
+
+
+
 
 
 // This section consists of instantation(s) for the constructors created above
@@ -191,7 +242,7 @@ margarita = new DrinkItem ("margarita","tart",bebidaItems);
 burritoPlate = new PlateItem("flour-less burrito","uniquely wrapped in a lime-peel", 25,[]);
 guacPlate = new PlateItem("Guacamole!","creamy and delicious",10,[avacado, tomatoSauce])
 cassarole = new PlateItem ("hodge-podge","eat-with-a-fork",50,[]);
-cornerTable = new OrderItem (tableOne);
+tableNum = new OrderItem (tableOne);
 dinnerMenu = new Menu ("dinner",menuCard);
 lunchMenu = new Menu ("lunch",[cassarole,burritoPlate]);
 dessertMenu = new Menu ("dessert",dessertItems);
@@ -202,6 +253,10 @@ aCustomer = new Customer ("dairy free");
 
 // This section adds instantiation objects to input items for additional constructors
 
+$(".food_item").on("click",function(){
+	console.log(this);
+	this.addItem();
+});
 
 dessertItems.push(cake);
 dessertItems.push(lime);
@@ -215,6 +270,25 @@ menuCard.push(beets, beef, cake, cassarole);
 menuCard.push(burritoPlate);
 menuCard.push(guacPlate);
 
-console.log(haroldAndMaudes.toString());
+var b = burritoPlate.create();
+var c = margarita.create();
+var d = beef.create();
+var e = tableNum.create();
+var f = dinnerMenu.create();
+var f1 = lunchMenu.create();
+var f2 = dessertMenu.create();
+var g = haroldAndMaudes.create();
+console.log(tableNum.toString());
+console.log(e);
+// $("p").append(b, c, d, e, f, g);
 
+$(".a").append(g);
+$(".b").append(f, f1, f2);
+// $(".c").append(d);
+
+$(".food_item").on("click",function(){
+	console.log(this);
+	// this.addItem();
+
+});
 });
