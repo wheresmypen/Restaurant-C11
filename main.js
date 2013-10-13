@@ -35,13 +35,17 @@ var Restaurant = function (name, description, menu){
 
 // restaurant(s) (composed of different Menu)
 Restaurant.prototype.toString = function (){
-	outPutString = ("At " + haroldAndMaudes.name + " we offer a number of " + haroldAndMaudes.description + " dishes from our " + haroldAndMaudes.menu[0].name + ", " + haroldAndMaudes.menu[1].name + ", and " + haroldAndMaudes.menu[2].name + " menus.\n")
-	outPutString += ("These include:\n");
-	for (i=0; i<3; i++) {
-		for (j=0; j<haroldAndMaudes.menu[i].plates.length; j++){
-			outPutString += ((haroldAndMaudes.menu[i].plates[j].name) + "\n");
-		};
+	outPutString = "At " + this.name + " we offer a number of " + this.description + " dishes from our "
+	var menuNames = "";
+	var menuItems = "";
+	for(var i = 0; i < this.menu.length; i++ ) {
+	    menuNames += this.menu[i].name + " ";
+	    for (var j = 0; j < this.menu[i].plates.length; j++ ){
+		menuItems += ((this.menu[i].plates[j].name) + "<br>");		
+	    };
 	};
+	console.log ("*"+menuItems, menuNames);
+	outPutString += menuNames + "<br>These include:<br>" + menuItems;
 	return outPutString;
 };
 
@@ -103,17 +107,12 @@ OrderItem.prototype.toString = function (){
 	return "Your order of" + c + " is " + cost + " dollars.";
 };
 
-// !!!!!!!!!!!!!!!!!!
-// Significant problems with the for loop
-// !!!!!!!!!!!!!!!!!!
 
 OrderItem.prototype.create = function(){
 	var compileOrder = "";
-	// var i = 0;
-	console.log (this.plates.length);
-	for (i=0; i<this.plates.length; i++){ 
-	 	console.log(OrderItem.plates)};
-		// compileOrder = ('<div class = "food item">${plates}</div>'.supplant(OrderItem.plates[i]));
+	for (var i=0; i<this.plates.length; i++){ 
+		compileOrder += '<div class = "food item">{name}</div>'.supplant(this.plates[i]);
+	}
 	return compileOrder;
 };
 
@@ -270,20 +269,22 @@ menuCard.push(beets, beef, cake, cassarole);
 menuCard.push(burritoPlate);
 menuCard.push(guacPlate);
 
-var b = burritoPlate.create();
-var c = margarita.create();
-var d = beef.create();
-var e = tableNum.create();
-var f = dinnerMenu.create();
-var f1 = lunchMenu.create();
-var f2 = dessertMenu.create();
-var g = haroldAndMaudes.create();
+
+// rename create calls to htmlString
+var plateItemRend = burritoPlate.create();
+var drinkItemRend = margarita.create();
+var foodItemRend = beef.create();
+var orderRend = tableNum.create();
+var dinnerMenuRend = dinnerMenu.create();
+var lunchMenuRend = lunchMenu.create();
+var dessertMenuRend = dessertMenu.create();
+var restaurantNameRend = haroldAndMaudes.create();
 console.log(tableNum.toString());
-console.log(e);
+// console.log(e);
 // $("p").append(b, c, d, e, f, g);
 
-$(".a").append(g);
-$(".b").append(f, f1, f2);
+$(".a").append(orderRend);
+$(".b").append(dinnerMenuRend, lunchMenuRend, dessertMenuRend);
 // $(".c").append(d);
 
 $(".food_item").on("click",function(){
