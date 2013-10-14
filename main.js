@@ -55,7 +55,7 @@ Restaurant.prototype.create = function (){
 	restDesc = "<div class='restaurant_name'>{name}\n</div>".supplant(this);
 	restDesc += "<div class ='restaurant_subheading'> Serving: </div>";
 	for (var i = 0; i < this.menu.length; i++){
-		restDesc += "<div class = 'restaurant_subheading'>" + this.menu[i].name + ' </div>';	
+		restDesc += "<div class = 'restaurant_subheading menuID" + i + "'>" + this.menu[i].name + ' </div>';	
 	}
 	return restDesc;
 
@@ -214,12 +214,13 @@ DrinkItem.prototype.create = function (){
 // 			name (string), calories (number),
 // 				vegan (boolean), glutenFree (boolean), citrusFree (boolean)
 
-var FoodItem = function (name, calories, vegan, glutenFree, citrusFree){
+var FoodItem = function (name, calories, vegan, glutenFree, citrusFree, price){
 	this.name = name;
 	this.calories = calories;
 	this.vegan = vegan;
 	this.glutenFree = glutenFree;
 	this.citrusFree = citrusFree;
+	this.price = price;
 }
 
 // food (ingredients)
@@ -269,14 +270,14 @@ var getItem = function(menu,index){
 
 // This section consists of instantation(s) for the constructors created above
 
-tequila = new FoodItem("booze",200,true,true,true);
-avacado = new FoodItem("guac",750,true,true,true);
-tomatoSauce = new FoodItem("gravy",125,true,true,true);
-rat = new FoodItem("not so much rat",600,false,true,true);
-beets = new FoodItem ("beets",250,true,true,true);
-beef = new FoodItem ("steak",1250,false,true,true);
-cake = new FoodItem ("twinkies",800,true,false,true);
-lime = new FoodItem ("lime",50,true,true,false);
+tequila = new FoodItem("booze",200,true,true,true,8);
+avacado = new FoodItem("guac",750,true,true,true,5);
+tomatoSauce = new FoodItem("gravy",125,true,true,true,4);
+rat = new FoodItem("not so much rat",600,false,true,true,1);
+beets = new FoodItem ("beets",250,true,true,true,2);
+beef = new FoodItem ("steak",1250,false,true,true,15);
+cake = new FoodItem ("twinkies",800,true,false,true,10);
+lime = new FoodItem ("lime",50,true,true,false,1);
 margarita = new DrinkItem ("margarita","tart",bebidaItems, 12);
 burritoPlate = new PlateItem("flour-less burrito","uniquely wrapped in a lime-peel", 25,[]);
 guacPlate = new PlateItem("Guacamole!","creamy and delicious",10,[avacado, tomatoSauce])
@@ -335,6 +336,8 @@ $(".food_item").on("click",function(){
     var order = new Order(tableX);
     $("#tableOrder").html(order.create());
 });
+
+
 
 
 });
