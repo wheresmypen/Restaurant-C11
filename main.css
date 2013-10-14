@@ -1,10 +1,11 @@
 p{
 	color:green;
 	background-color: lightyellow;
-	max-width: 40%;
+	max-width: 60%;
 	outline: solid;
+	margin: 0px auto 0px;
 	text-align: center;
-	display: none;
+	/*display: none;*/
 }
 
 #foodItem{
@@ -13,9 +14,9 @@ p{
 
 .food_item, .restaurant_name{
 	color : lightblue;
+	min-height: 25px;
 	outline: solid;
-	outline-color: #FFF999;
-	max-width: 35%;
+	outline-color: white;
 	text-align: center;
 	margin:10px;
 	margin-left: auto; margin-right: auto;
@@ -23,12 +24,24 @@ p{
 	z-index: 99;
 }
 
+.food_item{
+	max-width: 20%;
+}
+
 .food_item:hover{
 	outline-color:black;
 }
 
+.restaurant_subheading{
+	margin-left : auto; margin-right: auto;
+	text-align : center;
+	color : #999999;
+	text-transform : uppercase;
+}
+
 
 .restaurant_name{
+	max-width: 35%;
 	outline: dashed;
 	outline-color: red;
 	outline-width: 15px;
