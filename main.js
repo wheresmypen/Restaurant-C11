@@ -85,7 +85,7 @@ Menu.prototype.toString = function (){
 Menu.prototype.create = function (){
 	var variety = ""
 	for (var i = 0; i<(this.plates.length); i++){
-		var addOutput = ("<div class='food_item' id='food_item-" + (this.name+i) + "'><p>" + this.plates[i].name + "</p></div>");
+		var addOutput = "<div class='food_item' id='food_item-" + (this.name+i) + "'><p>" + this.plates[i].name + "</p></div>";
 		variety += addOutput
 	}
 	// variety += "<div class = 'food_item'>{name}</div>".supplant(this.plates[i])
@@ -99,17 +99,19 @@ Menu.prototype.create = function (){
 }
 
 
+// IN THE MENU AREA, each plate item will have an added class based on the properties of the FoodItems, DrinkItems, PlateItems
+
 
 
 // The desired input follows each parameter in parentheses:
 // plates (PlateItem)
 
-var OrderItem = function (plates){
+var Order = function (plates){
 	this.plates = plates;
 }
 
 // orders/tickets (composed of PlateItems and DrinkItems)
-OrderItem.prototype.toString = function (){
+Order.prototype.toString = function (){
 	var c = "";
 	var cost = 0;
 	console.log(this.plates);
@@ -123,14 +125,10 @@ OrderItem.prototype.toString = function (){
 }
 
 
-OrderItem.prototype.create = function(){
-	var compileOrder = "";
-	for (var i=0; i<this.plates.length; i++){ 
-		compileOrder += '<div class = "food item">{name}</div>'.supplant(this.plates[i]);
-	}
-	return compileOrder;
+Order.prototype.create = function(){
+	var orderText = this.toString();
+	return "<div class = 'food item'>" + orderText+ "</div>";
 }
-
 
 // The desired input follows each parameter in parentheses:
 // name (string), description (string), price (number), items ([FoodItem])
@@ -251,13 +249,12 @@ var getMenu = function(name){
 				var num = 2;
 			}
 		}	
-	// name === "dinner " ? var num = 1 : (name === "lunch  " ? var num =2 : var num =3);
 	return num;
 };
 
 var getItem = function(menu,index){
 	var menuNum = getMenu(menu);
-	console.log(haroldAndMaudes.menu[menuNum].plates[index].name)
+	return haroldAndMaudes.menu[menuNum].plates[index];
 
 }
 
@@ -284,7 +281,7 @@ margarita = new DrinkItem ("margarita","tart",bebidaItems, 12);
 burritoPlate = new PlateItem("flour-less burrito","uniquely wrapped in a lime-peel", 25,[]);
 guacPlate = new PlateItem("Guacamole!","creamy and delicious",10,[avacado, tomatoSauce])
 cassarole = new PlateItem ("hodge-podge","eat-with-a-fork",50,[]);
-tableNum = new OrderItem ([cassarole, margarita]);
+tableNum = new Order ([cassarole, margarita]);
 dinnerMenu = new Menu ("dinner ",menuCard);
 lunchMenu = new Menu ("lunch  ",[cassarole,burritoPlate]);
 dessertMenu = new Menu ("dessert",dessertItems);
@@ -326,12 +323,20 @@ $("#restaurantName").append(restaurantNameRend);
 $("#menuItems").append(dinnerMenuRend, lunchMenuRend, dessertMenuRend);
 $("#menuName").append();
 
+var tableX =[]
+
 $(".food_item").on("click",function(){
-	var menuIndexWhole = this.id;
-	var menuIndexMenu = menuIndexWhole.slice(10,17);
-	var menuIndexNo = menuIndexWhole.slice(17,18);
-	getItem(menuIndexMenu,menuIndexNo);
+    var menuIndexWhole = this.id;
+    var menuIndexMenu = menuIndexWhole.slice(10,17);
+    var menuIndexNo = menuIndexWhole.slice(17,18);
+    var orderedItem= getItem(menuIndexMenu,menuIndexNo);
+    tableX.push(orderedItem);
+    console.log(orderedItem);
+    var order = new Order(tableX);
+    $("#tableOrder").html(order.create());
 });
 
 
 });
+// Here are the additional styles that are added to the classes of different dietary restrictions.
+// $(".vegan").style({background: "1px solid magenta"});
